@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models.habitacion import Habitacion
+from app.api.models.habitacion import Habitacion
 from app.extensions import db
 
 habitaciones_bp = Blueprint('habitaciones_bp', __name__, url_prefix='/habitaciones')

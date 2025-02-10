@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
-from app.models.reserva import Reserva
+from app.api.models.reserva import Reserva
 from app.extensions import db
+from datetime import datetime
 
 reservas_bp = Blueprint('reservas_bp', __name__, url_prefix='/reservas')
 
@@ -40,10 +41,18 @@ def create_reserva():
         return jsonify({'error': 'Faltan datos'}), 400
     if not data.get('fecha_inicio') or not data.get('fecha_fin') or not data.get('usuario_id') or not data.get('habitacion_id'):
         return jsonify({'error': 'Faltan datos obligatorios'}), 400
+      
+    try:
+        fecha_inicio = datetime.strptime(data.get('fecha_inicio'), '%Y-%m-%dT%H:%M:%S')
+        fecha_fin = datetime.strptime(data.get('fecha_fin'), '%Y-%m-%dT%H:%M:%S')
+        if fecha_inicio > fecha_fin:
+            return jsonify({'error': 'La fecha de inicio debe ser anterior a la de fin'}), 400
+    except ValueError:
+        return jsonify({'error': 'Formato de fecha inválido'}), 400
 
     nueva_reserva = Reserva(
-        fecha_inicio=data.get('fecha_inicio'),
-        fecha_fin=data.get('fecha_fin'),
+        fecha_inicio=fecha_inicio,
+        fecha_fin=fecha_fin,
         usuario_id=data.get('usuario_id'),
         habitacion_id=data.get('habitacion_id')
     )

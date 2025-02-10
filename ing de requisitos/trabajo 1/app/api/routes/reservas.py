@@ -41,7 +41,7 @@ def create_reserva():
         return jsonify({'error': 'Faltan datos'}), 400
     if not data.get('fecha_inicio') or not data.get('fecha_fin') or not data.get('usuario_id') or not data.get('habitacion_id'):
         return jsonify({'error': 'Faltan datos obligatorios'}), 400
-      
+
     try:
         fecha_inicio = datetime.strptime(data.get('fecha_inicio'), '%Y-%m-%dT%H:%M:%S')
         fecha_fin = datetime.strptime(data.get('fecha_fin'), '%Y-%m-%dT%H:%M:%S')

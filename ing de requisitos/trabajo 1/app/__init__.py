@@ -4,6 +4,7 @@ from app.extensions import db, migrate
 from app.api.routes.usuarios import usuarios_bp
 from app.api.routes.reservas import reservas_bp
 from app.api.routes.habitaciones import habitaciones_bp
+from app.api.routes.login import login_bp
 
 def create_app():
   app = Flask(__name__)
@@ -18,5 +19,6 @@ def create_app():
   app.register_blueprint(usuarios_bp)
   app.register_blueprint(reservas_bp)
   app.register_blueprint(habitaciones_bp)
+  app.register_blueprint(login_bp)
 
   return app
